@@ -81,9 +81,7 @@ class Game(object):
             
             player[0].hunt_outcomes(food)
             player[0].round_end(bonus, m, total_hunts)
-            if player[1] < 1:
-                self.dead_players[player[3]] = [player[0], float('nan'), float('nan'), player[3]]
-            
+           
             
         if self.verbose:
 #            print([(name, food, hunts/self.attempts) for name, food, hunts in self.players])
@@ -92,6 +90,10 @@ class Game(object):
             full_list_of_players.extend(self.dead_players.values())
             print('\t'.join(["%s\t%s" % (food, hunts/self.attempts) for name, food, hunts, player_id in sorted(full_list_of_players, key=lambda x:x[3])]))
                    
+        for player in self.players:
+            if player[1] < 1:
+                self.dead_players[player[3]] = [player[0], float('nan'), float('nan'), player[3]]
+ 
         
         if self.game_over():
             raise StopIteration
