@@ -17,11 +17,14 @@ class Game(object):
         self.attempts = 0
         
         self.players = players # to set self.P
-        player_ids = range(len(self.players))
+        self.total_players = len(self.players)
+        player_ids = range(self.total_players)
         food = [300*(self.P-1)]*self.P
         reputation = [0]*self.P
         self.players = [[p,f,r,i] for p,f,r,i in zip(players,food,reputation,player_ids)]
         header_template = '%s.food\t%s.rep'
+
+        self.dead_players = {}
         if self.verbose:
             print('\t'.join([header_template % (p[0], p[0]) for p in self.players]))
         
@@ -78,12 +81,16 @@ class Game(object):
             
             player[0].hunt_outcomes(food)
             player[0].round_end(bonus, m, total_hunts)
+            if player[1] < 1:
+                self.dead_players[player[3]] = player
             
             
         if self.verbose:
 #            print([(name, food, hunts/self.attempts) for name, food, hunts in self.players])
 #            print([(name, food, hunts/self.attempts, player_id) for name, food, hunts, player_id in sorted(self.players, key=lambda x:x[3])])
-            print('\t'.join(["%s\t%s" % (food, hunts/self.attempts) for name, food, hunts, player_id in sorted(self.players, key=lambda x:x[3])]))
+            full_list_of_players = self.players
+            full_list_of_players.extend(self.dead_players.values())
+            print('\t'.join(["%s\t%s" % (food, hunts/self.attempts) for name, food, hunts, player_id in sorted(full_list_of_players, key=lambda x:x[3])]))
                    
         
         if self.game_over():
