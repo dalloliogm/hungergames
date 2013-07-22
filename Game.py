@@ -3,7 +3,7 @@ import random
 
 # I have no idea what these numbers should be yet
 MIN_ROUNDS = 300
-AVERAGE_ROUNDS = 1000
+AVERAGE_ROUNDS = 10000
 
 def payout(*args):
     '''Times 3 because this calculates one person's share'''
@@ -17,9 +17,14 @@ class Game(object):
         self.attempts = 0
         
         self.players = players # to set self.P
+        player_ids = range(len(self.players))
+        print(player_ids)
         food = [300*(self.P-1)]*self.P
         reputation = [0]*self.P
-        self.players = [[p,f,r] for p,f,r in zip(players,food,reputation)]
+        self.players = [[p,f,r,i] for p,f,r,i in zip(players,food,reputation,player_ids)]
+        header_template = '%s.food\t%s.rep'
+        if self.verbose:
+            print('\t'.join([header_template % (p[0], p[0]) for p in self.players]))
         
         
     @property
@@ -77,7 +82,9 @@ class Game(object):
             
             
         if self.verbose:
-            print([(name, food, hunts/self.attempts) for name, food, hunts in self.players])
+#            print([(name, food, hunts/self.attempts) for name, food, hunts in self.players])
+#            print([(name, food, hunts/self.attempts, player_id) for name, food, hunts, player_id in sorted(self.players, key=lambda x:x[3])])
+            print('\t'.join(["%s\t%s" % (food, hunts/self.attempts) for name, food, hunts, player_id in sorted(self.players, key=lambda x:x[3])]))
                    
         
         if self.game_over():
@@ -99,6 +106,6 @@ class Game(object):
             try:
                 self.play_round()
             except StopIteration:
-                print(self.players)
+#                print(self.players)
                 break
         
