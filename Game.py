@@ -18,7 +18,6 @@ class Game(object):
         
         self.players = players # to set self.P
         player_ids = range(len(self.players))
-        print(player_ids)
         food = [300*(self.P-1)]*self.P
         reputation = [0]*self.P
         self.players = [[p,f,r,i] for p,f,r,i in zip(players,food,reputation,player_ids)]
