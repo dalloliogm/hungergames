@@ -3,7 +3,7 @@ import random
 
 # I have no idea what these numbers should be yet
 MIN_ROUNDS = 300
-AVERAGE_ROUNDS = 10000
+AVERAGE_ROUNDS = 1000
 
 def payout(*args):
     '''Times 3 because this calculates one person's share'''
