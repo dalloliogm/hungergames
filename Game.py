@@ -82,7 +82,7 @@ class Game(object):
             player[0].hunt_outcomes(food)
             player[0].round_end(bonus, m, total_hunts)
             if player[1] < 1:
-                self.dead_players[player[3]] = player
+                self.dead_players[player[3]] = [player[0], float('nan'), float('nan'), player[3]]
             
             
         if self.verbose:
